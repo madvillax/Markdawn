@@ -8,7 +8,6 @@ import {
   FolderPlus,
   Home,
   LogOut,
-  Search,
 } from 'lucide-react';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
@@ -60,7 +59,6 @@ export function PageTree() {
   const sidebarIdentity = session?.user?.name?.trim().split(/\s+/)[0] || 'Markdawn';
   const createFolderShortcut = formatShortcut(SHORTCUT_PATTERNS.createFolder);
   const createNoteShortcut = formatShortcut(SHORTCUT_PATTERNS.createNote);
-  const searchShortcut = formatShortcut(SHORTCUT_PATTERNS.commandPalette);
 
   const pagesQuery = usePageTree();
   const { data: refreshedPages, refetch: refetchPages } = pagesQuery;
@@ -391,16 +389,6 @@ export function PageTree() {
             </button>
           </div>
         </div>
-        <button
-          type="button"
-          onClick={() => window.dispatchEvent(new Event('open-search'))}
-          className="mt-3 flex h-10 w-full items-center gap-2.5 rounded-xl border border-zinc-200/70 bg-zinc-100/90 px-3 text-left text-sm text-zinc-500 hover:border-zinc-300 hover:bg-zinc-200/70 hover:text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-500 dark:hover:border-zinc-700 dark:hover:bg-zinc-800/90 dark:hover:text-zinc-300 cursor-pointer"
-          aria-label={`Search (${searchShortcut})`}
-          data-testid="sidebar-search-btn"
-        >
-          <Search size={16} className="shrink-0" />
-          <span className="flex-1">Search</span>
-        </button>
       </div>
 
       <div className="mx-3 border-t border-zinc-200/70 dark:border-zinc-800/80" />
