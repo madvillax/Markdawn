@@ -1,0 +1,102 @@
+---
+import type { MarkdownInstance } from 'astro';
+import { DOCS_ORIGIN, GITHUB_URL } from '../data/siteConfig';
+// biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
+import AppLink from './AppLink.astro';
+import '../styles/siteFooter.css';
+
+const modules = import.meta.glob<MarkdownInstance<Record<string, unknown>>>(
+  '../content/footerNotes/*.md',
+  { eager: true },
+);
+const filenames = [
+  'daily-notes',
+  'project-plan',
+  'scratchpad',
+  'connections',
+  'readme',
+  'ideas',
+  'meeting-notes',
+  'agent-context',
+  'from-the-terminal',
+  'yours-to-keep',
+];
+// biome-ignore lint/correctness/noUnusedVariables: Used by the Astro template below.
+const notes = filenames.map((filename, index) => {
+  const note = modules[`../content/footerNotes/${filename}.md`];
+  if (!note) throw new Error(`Missing footer note: ${filename}`);
+  const source = note.rawContent().trim();
+  return {
+    filename: `${filename}.md`,
+    preview: source.split('\n').slice(0, 8),
+    position: `--note-x: ${[27, 35, 43, 48, 57, 63, 70, 78, 86, 94][index]}%; --note-y: ${[67, 40, 71, 59, 35, 73, 49, 68, 40, 70][index]}%; --note-angle: ${[-9, 6, -4, 11, -7, 4, -10, 8, -3, 7][index]}deg;`,
+  };
+});
+// biome-ignore lint/correctness/noUnusedVariables: Used by the Astro template below.
+const resources = [
+  { label: 'Documentation', href: DOCS_ORIGIN },
+  { label: 'GitHub', href: GITHUB_URL },
+  { label: 'MCP', href: `${DOCS_ORIGIN}/agents/mcp/` },
+  { label: 'CLI', href: `${DOCS_ORIGIN}/agents/metakip-cli/` },
+];
+---
+
+<footer class="site-footer" id="footer" data-note-footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-intro">
+        <p class="footer-kicker">A home for your knowledge</p>
+        <h2>Your next idea<br />belongs <span>here.</span></h2>
+        <p class="footer-description">One knowledge base for you, your team, and your agents.</p>
+        <AppLink class="footer-cta">Open Metakip <span aria-hidden="true">↗</span></AppLink>
+      </div>
+      <nav class="footer-navigation" aria-label="Footer navigation">
+        <div>
+          <h3>(Explore)</h3>
+          <a href="/features">Features</a>
+          <a href="/use-cases">Use Cases</a>
+          <a href="/pricing">Pricing</a>
+          <a href="/changelog">Changelog</a>
+        </div>
+        <div>
+          <h3>(Resources)</h3>
+          {resources.map(({ label, href }) => (
+            <a href={href} target="_blank" rel="noopener noreferrer">
+              {label}<span aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </div>
+      </nav>
+    </div>
+
+    <div class="footer-note-scene" data-note-scene aria-hidden="true">
+      {notes.map(({ filename, preview, position }, index) => (
+        <div
+          class:list={['footer-note', filename === 'ideas.md' && 'footer-note-orange']}
+          style={position}
+          data-note={index}
+        >
+          <span class="footer-note-paper">
+            <span class="footer-note-top" aria-hidden="true"><span>Markdown</span><span class="footer-note-extension">.md</span></span>
+            <span class="footer-note-content" aria-hidden="true">
+              {preview.map((line) => (
+                <span class:list={['footer-note-line', /^#/.test(line) && 'is-heading', /^-/.test(line) && 'is-list']}>
+                  {line || '\u00a0'}
+                </span>
+              ))}
+            </span>
+            <span class="footer-note-filename" aria-hidden="true">{filename}</span>
+          </span>
+        </div>
+      ))}
+    </div>
+
+    <div class="footer-wordmark" aria-label="Metakip">Metakip<span class="footer-wordmark-accent" aria-hidden="true">.</span></div>
+  </div>
+
+</footer>
+
+<script>
+  import { initNoteFooter } from '../scripts/noteFooter';
+  document.querySelectorAll<HTMLElement>('[data-note-footer]').forEach(initNoteFooter);
+</script>

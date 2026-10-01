@@ -1,10 +1,9 @@
 ---
-import '@fontsource/inter/400.css';
-import '@fontsource/inter/500.css';
-import '@fontsource/inter/600.css';
-import '@fontsource/inter/700.css';
+import '../styles/fonts.css';
 // biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
 import { SITE_ORIGIN, SOCIAL_IMAGE_URL } from '../data/siteConfig';
+// biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
+import SiteFooter from './SiteFooter.astro';
 // biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
 import SiteHeader from './SiteHeader.astro';
 // biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
@@ -74,6 +73,7 @@ const structuredDataJson = structuredData ? serializeStructuredData(structuredDa
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
     <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="preload" href="/fonts/Geist.woff2" as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
     {structuredDataJson && <script is:inline type="application/ld+json" set:html={structuredDataJson}></script>}
     <ThemeController />
@@ -82,13 +82,14 @@ const structuredDataJson = structuredData ? serializeStructuredData(structuredDa
   <body>
     <SiteHeader />
     <slot />
+    <SiteFooter />
   </body>
 </html>
 
 <style is:global>
   :root {
     color-scheme: light;
-    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    font-family: Geist, ui-sans-serif, system-ui, sans-serif;
     --background: #fff;
     --text: #111;
     --muted: #666;
