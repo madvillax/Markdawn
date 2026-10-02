@@ -7,7 +7,12 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 
 <header class="site-header" transition:persist="site-navigation" transition:animate="none">
-  <div class="site-header-inner">
+  <div class="site-header-layout">
+    <div class="site-header-inner">
+    <a class="site-brand" href="/" aria-label="Metakip home">
+      <img class="site-brand-mark" src="/metakip-mark.png" width="30" height="30" alt="" />
+      <span>Metakip</span>
+    </a>
     <nav class="page-nav" aria-label="Page navigation">
       {SITE_NAVIGATION.map((link) => (
         <a
@@ -18,7 +23,9 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
         >{link.label}</a>
       ))}
     </nav>
-    <div class="header-actions">
+    </div>
+    <div class="site-utility-pill">
+      <div class="header-actions">
       <a class="header-action" href={DOCS_ORIGIN} target="_blank" rel="noopener noreferrer" title="Documentation" aria-label="Documentation">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path>
@@ -31,7 +38,13 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
         </svg>
         <span>GitHub</span>
       </a>
+      </div>
       <div class="theme-selector" role="group" aria-label="Color theme">
+        <button class="theme-option" type="button" data-theme-option="system" aria-label="Use system theme" title="Use system theme" aria-pressed="false">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect width="20" height="14" x="2" y="3" rx="2"></rect><line x1="8" x2="16" y1="21" y2="21"></line><line x1="12" x2="12" y1="17" y2="21"></line>
+          </svg>
+        </button>
         <button class="theme-option" type="button" data-theme-option="light" aria-label="Light theme" title="Light theme" aria-pressed="false">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
@@ -42,18 +55,13 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
             <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
           </svg>
         </button>
-        <button class="theme-option" type="button" data-theme-option="system" aria-label="Use system theme" title="Use system theme" aria-pressed="false">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect width="20" height="14" x="2" y="3" rx="2"></rect><line x1="8" x2="16" y1="21" y2="21"></line><line x1="12" x2="12" y1="17" y2="21"></line>
-          </svg>
-        </button>
       </div>
     </div>
   </div>
 </header>
 
 <script>
-  // Navigation stays mounted; update its active route after every content swap.
+  // Navigation stays mounted; update the current page after every content swap.
   document.addEventListener('astro:page-load', () => {
     const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
     document.querySelectorAll<HTMLAnchorElement>('.page-nav .header-feature-link').forEach((link) => {
@@ -66,75 +74,105 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 </script>
 
 <style>
-  /* Compact capsules shared with the hero's interface actions. */
+  /* A single, soft floating rail keeps the site navigation visually quiet. */
   .site-header {
     position: relative;
     z-index: 10;
-    padding: 16px;
-    background: var(--background);
+    padding: 18px clamp(20px, 4vw, 64px) 12px;
+    background: transparent;
+  }
+
+  .site-header-layout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: min(1280px, 100%);
+    margin-inline: auto;
   }
 
   .site-header-inner {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 16px;
+    gap: clamp(14px, 2vw, 26px);
+    width: auto;
+    flex: 0 1 auto;
+    padding: 7px 14px;
+    border: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
+    border-radius: 999px;
+    background: var(--background);
   }
 
-  .page-nav,
-  .header-actions {
+  .site-brand {
     display: flex;
     align-items: center;
-    flex-shrink: 0;
-    gap: 4px;
-    padding: 4px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    background: #f1f1ef;
+    grid-area: brand;
+    gap: 9px;
+    color: var(--text);
+    font-size: 17px;
+    font-weight: 570;
+    letter-spacing: -0.04em;
+    text-decoration: none;
+    white-space: nowrap;
   }
 
-  :global(.dark) .page-nav,
-  :global(.dark) .header-actions {
-    border-color: #343434;
-    background: #1e1e1e;
+  .site-brand-mark {
+    display: block;
+    width: 31px;
+    height: 31px;
+    object-fit: contain;
   }
+
+  :global(.dark) .site-brand-mark { filter: invert(1); }
+
+  .page-nav {
+    display: flex;
+    flex: 0 1 auto;
+    align-items: center;
+    justify-content: flex-start;
+    gap: clamp(16px, 2.4vw, 36px);
+    min-width: 0;
+    overflow-x: auto;
+    border: 0;
+    scrollbar-width: none;
+  }
+
+  .page-nav::-webkit-scrollbar { display: none; }
 
   .header-feature-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 34px;
-    padding: 0 17px;
-    border-radius: 999px;
+    min-height: 38px;
+    flex: 0 0 auto;
     color: var(--muted);
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 15px;
+    font-weight: 470;
     text-decoration: none;
     white-space: nowrap;
-    transition: color 150ms ease, background-color 150ms ease;
+    transition: color 180ms ease, transform 180ms ease;
   }
 
   .header-feature-link:hover,
-  .header-feature-link.active {
-    background: #dededc;
-    color: #252523;
+  .header-feature-link.active { color: var(--text); font-weight: 540; }
+  .header-feature-link:hover { transform: translateY(-1px); }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 5px;
   }
 
-  :global(.dark) .header-feature-link { color: #d4d4d8; }
-  :global(.dark) .header-feature-link:hover,
-  :global(.dark) .header-feature-link.active { background: #3f3f46; color: #f7f7f5; }
-
-  .header-actions { gap: 2px; margin-left: auto; }
   .header-action,
   .theme-option {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: 34px;
+    height: 34px;
     padding: 0;
     border: 0;
-    border-radius: 999px;
+    border-radius: 50%;
     background: transparent;
     color: var(--muted);
     cursor: pointer;
@@ -142,27 +180,76 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
   }
 
   .header-action span { display: none; }
-  .theme-option svg { width: 14px; height: 14px; }
-  .header-action:hover,
-  .theme-option:hover { background: color-mix(in srgb, var(--text) 8%, transparent); color: var(--text); }
-  .theme-selector { display: flex; padding-left: 5px; margin-left: 3px; border-left: 1px solid var(--line); }
-  .theme-option[aria-pressed='true'] { background: color-mix(in srgb, var(--text) 8%, transparent); color: var(--text); }
+  .header-action svg { width: 17px; height: 17px; }
+  .header-action:hover { background: color-mix(in srgb, var(--text) 8%, transparent); color: var(--text); }
+
+  .theme-selector {
+    display: flex;
+    gap: 1px;
+    flex: 0 0 auto;
+    margin-left: 0;
+    padding: 3px;
+    border: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
+    border-radius: 999px;
+    background: var(--background);
+  }
+
+  .site-utility-pill {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    flex: 0 0 auto;
+    padding: 4px 6px;
+    border: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
+    border-radius: 999px;
+    background: var(--background);
+  }
+
+  .theme-option svg { width: 16px; height: 16px; }
+  .theme-option { width: 30px; height: 30px; border-radius: 50%; }
+  .theme-option:hover { background: color-mix(in srgb, var(--text) 7%, transparent); color: var(--text); }
+  .theme-option[aria-pressed='true'] {
+    background: var(--text);
+    color: var(--background);
+  }
+
+  .site-header :is(a, button):focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
 
   @media (max-width: 899px) {
-    .header-feature-link { padding-inline: 14px; }
-    .site-header-inner { flex-wrap: wrap; gap: 10px; }
+    .site-header { padding-top: 12px; }
+    .site-header-layout { align-items: flex-start; }
+    .site-header-inner {
+      flex: 1 1 auto;
+      min-width: 0;
+      padding: 7px 12px;
+      border-radius: 22px;
+    }
+
+    .page-nav { justify-content: flex-start; gap: clamp(18px, 3vw, 28px); }
+    .header-feature-link { min-height: 36px; font-size: 13px; }
+    .header-actions { gap: 7px; }
+    .site-utility-pill { padding: 4px; }
   }
 
   @media (max-width: 560px) {
-    .site-header { padding: 12px 10px 0; }
-    .page-nav { width: 100%; gap: 0; padding: 4px; }
-    .header-feature-link { flex: 1; height: 32px; padding-inline: 7px; font-size: 11px; }
-    .header-actions { margin-left: auto; padding: 3px; }
-    .header-action,
-    .theme-option { width: 28px; height: 28px; }
+    .site-header { padding: 10px 12px 6px; }
+    .site-header-layout { gap: 6px; }
+    .site-brand { gap: 8px; font-size: 16px; }
+    .site-brand-mark { width: 26px; height: 26px; }
+    .page-nav { gap: clamp(12px, 3.8vw, 18px); padding-bottom: 2px; }
+    .header-feature-link { min-height: 34px; font-size: 11px; }
+    .header-actions { gap: 4px; }
+    .header-action { width: 29px; height: 30px; }
+    .theme-selector { gap: 0; margin-left: 1px; padding: 2px; }
+    .theme-option { width: 27px; height: 27px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .header-feature-link { transition: none; }
+    .header-feature-link,
+    .header-action,
+    .theme-option { transition: none; }
   }
 </style>
