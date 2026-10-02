@@ -2,6 +2,8 @@
 // biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
 import AppLink from '../components/AppLink.astro';
 // biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
+import FeatureHighlights from '../components/FeatureHighlights.astro';
+// biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
 import HeroCollaboration from '../components/HeroCollaboration.astro';
 // biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
 import HeroWorkspace from '../components/HeroWorkspace.astro';
@@ -74,7 +76,10 @@ const STRUCTURED_DATA = {
         <p class="hero-copy">{PRODUCT_SUMMARY}</p>
 
         <div class="actions">
-      <AppLink class="action-button">Web</AppLink>
+      <AppLink class="action-button">
+        <svg class="action-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z"></path></svg>
+        <span>Web</span>
+      </AppLink>
 
           <div class="cli-popover-container" data-cli-popover-container>
             <a
@@ -85,7 +90,10 @@ const STRUCTURED_DATA = {
               aria-haspopup="dialog"
               aria-expanded="false"
               data-cli-trigger
-            >CLI</a>
+            >
+              <svg class="action-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 17 6-6-6-6"></path><path d="M12 19h8"></path></svg>
+              <span>CLI</span>
+            </a>
 
             <div class="cli-popover" role="dialog" aria-label="Install the CLI" hidden data-cli-popover>
               <div class="cli-popover-title">
@@ -122,11 +130,15 @@ const STRUCTURED_DATA = {
             </div>
           </div>
 
-          <a class="action-button" href={MCP_GUIDE} target="_blank" rel="noopener noreferrer">MCP</a>
+          <a class="action-button" href={MCP_GUIDE} target="_blank" rel="noopener noreferrer">
+            <svg class="action-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.5"></circle><circle cx="18" cy="6" r="2.5"></circle><circle cx="18" cy="18" r="2.5"></circle><path d="m8.2 10.8 7.5-3.6M8.2 13.2l7.5 3.6"></path></svg>
+            <span>MCP</span>
+          </a>
 
         </div>
       </section>
       <HeroWorkspace />
+      <FeatureHighlights />
     </main>
 
     <script>
