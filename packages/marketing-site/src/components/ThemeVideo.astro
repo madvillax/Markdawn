@@ -33,21 +33,19 @@ const {
   <source src={lightUrl} type={type} />
 </video>
 
-<script is:inline>
-  (() => {
-    const script = document.currentScript;
-    const video = script?.previousElementSibling;
-
-    if (!(video instanceof HTMLVideoElement)) {
-      throw new Error('Theme video controller must follow a video element');
-    }
-
+<script>
+  let cleanupVideos: (() => void) | undefined;
+  const initializeVideos = (): void => {
+    cleanupVideos?.();
+    const controller = new AbortController();
+    const { signal } = controller;
+    document.querySelectorAll<HTMLVideoElement>('.feature-video').forEach((video) => {
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
     const updateAutoplay = () => {
       video.autoplay = !reducedMotion.matches;
       if (reducedMotion.matches) video.pause();
     };
-    const updateVideoSource = (isDark) => {
+    const updateVideoSource = (isDark: boolean): void => {
       const sourceUrl = isDark ? video.dataset.darkSrc : video.dataset.lightSrc;
       const sourceType = video.dataset.videoType;
 
@@ -72,9 +70,13 @@ const {
         throw new Error('Invalid theme change event');
       }
       updateVideoSource(event.detail);
+    }, { signal });
+    reducedMotion.addEventListener('change', updateAutoplay, { signal });
     });
-    reducedMotion.addEventListener('change', updateAutoplay);
-  })();
+    cleanupVideos = () => controller.abort();
+  };
+  document.addEventListener('astro:before-swap', () => cleanupVideos?.());
+  document.addEventListener('astro:page-load', initializeVideos);
 </script>
 
 <style>

@@ -1,6 +1,8 @@
 ---
 import '../styles/fonts.css';
 // biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
+import { ClientRouter, fade } from 'astro:transitions';
+// biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
 import { SITE_ORIGIN, SOCIAL_IMAGE_URL } from '../data/siteConfig';
 // biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
 import SiteFooter from './SiteFooter.astro';
@@ -44,8 +46,9 @@ const structuredDataJson = structuredData ? serializeStructuredData(structuredDa
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" transition:animate="none">
   <head>
+    <ClientRouter fallback="swap" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
@@ -70,8 +73,8 @@ const structuredDataJson = structuredData ? serializeStructuredData(structuredDa
     <link rel="canonical" href={url} />
     {markdownUrl && <link rel="alternate" type="text/markdown" href={markdownUrl} />}
     {describedBy && <link rel="describedby" type="text/plain" href={describedBy} />}
-    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-light-192.png" data-theme-icon="192" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-light-512.png" data-theme-icon="512" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="preload" href="/fonts/Geist.woff2" as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
@@ -79,9 +82,13 @@ const structuredDataJson = structuredData ? serializeStructuredData(structuredDa
     <ThemeController />
     <slot name="styles" />
   </head>
-  <body>
-    <SiteHeader />
-    <slot />
+  <body class:list={[Astro.url.pathname === '/' && 'home-page']}>
+    <div class="site-layout-body">
+      <SiteHeader />
+      <div class="site-layout-main" transition:name="page-content" transition:animate={fade({ duration: '160ms' })}>
+        <slot />
+      </div>
+    </div>
     <SiteFooter />
   </body>
 </html>
@@ -123,6 +130,15 @@ const structuredDataJson = structuredData ? serializeStructuredData(structuredDa
     min-height: 100vh;
     background: var(--background);
     color: var(--text);
+  }
+
+  .site-layout-body {
+    display: block;
+    min-height: 100vh;
+  }
+
+  .site-layout-main {
+    min-width: 0;
   }
 
   *,

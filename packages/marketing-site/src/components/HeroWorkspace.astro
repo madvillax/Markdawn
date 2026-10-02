@@ -1,0 +1,108 @@
+---
+// biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
+import { Image } from 'astro:assets';
+// biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
+import workspaceDark from '../assets/hero-workspace-dark.png';
+// biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
+import workspaceLight from '../assets/hero-workspace-light.png';
+// biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
+import { DOCS_ORIGIN } from '../data/siteConfig';
+---
+
+<figure class="workspace-preview" aria-label="Metakip workspace and CLI preview">
+  <div class="workspace-window">
+    <div class="window-bar">
+      <img src="/metakip-mark.png" width="20" height="18" alt="" />
+      <span>Metakip</span>
+      <span class="window-tab">Shared workspace</span>
+    </div>
+    <div class="workspace-recording">
+      <Image class="workspace-light" src={workspaceLight} alt="Metakip shared workspace mockup" widths={[400, 800]} sizes="(max-width: 899px) 90vw, 760px" format="webp" loading="lazy" />
+      <Image class="workspace-dark" src={workspaceDark} alt="Metakip shared workspace mockup" widths={[400, 800]} sizes="(max-width: 899px) 90vw, 760px" format="webp" loading="lazy" />
+    </div>
+  </div>
+  <div class="command-window">
+    <div class="command-bar"><span>Terminal</span><span>metakip / cli</span></div>
+    <div class="command-body">
+      <span class="command-comment"># The same knowledge, from your terminal.</span>
+      <code><span class="command-prompt">$</span> metakip page list</code>
+      <code><span class="command-prompt">$</span> metakip page view "Project notes"</code>
+      <a href={`${DOCS_ORIGIN}/agents/metakip-cli/`} target="_blank" rel="noopener noreferrer">Explore the CLI <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</figure>
+
+<style>
+  .workspace-preview {
+    position: relative;
+    width: min(760px, calc(100% - 80px));
+    margin: 40px auto 0;
+    padding-bottom: 28px;
+  }
+
+  .workspace-window {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--background);
+  }
+
+  .window-bar,
+  .command-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 40px;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--line);
+    background: var(--preview-surface);
+    font-size: 11px;
+  }
+
+  .window-bar img { width: 15px; height: auto; }
+  :global(.dark) .window-bar img { filter: invert(1); }
+  .window-tab { margin-left: 18px; color: var(--muted); }
+
+  .workspace-recording {
+    overflow: hidden;
+    aspect-ratio: 16 / 8.5;
+  }
+
+  .workspace-recording :global(img) {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .workspace-recording :global(.workspace-dark) { display: none; }
+  :global(.dark) .workspace-recording :global(.workspace-light) { display: none; }
+  :global(.dark) .workspace-recording :global(.workspace-dark) { display: block; }
+
+  .command-window {
+    position: absolute;
+    bottom: 0;
+    left: -28px;
+    width: min(390px, 62%);
+    border: 1px solid var(--line);
+    background: var(--background);
+    box-shadow: 0 12px 32px rgb(37 37 35 / 12%);
+    font-family: 'Geist Mono', monospace;
+  }
+
+  .command-bar { justify-content: space-between; color: var(--muted); }
+  .command-body { display: grid; gap: 14px; padding: 20px; font-size: 10px; }
+  .command-comment { color: var(--muted); font-size: 9px; }
+  .command-body code { font: inherit; white-space: nowrap; }
+  .command-prompt { margin-right: 8px; color: var(--hero-accent-text); }
+  .command-body a { width: fit-content; margin-top: 8px; color: var(--muted); text-decoration: none; }
+  .command-body a:hover { color: var(--text); }
+
+  @media (max-width: 560px) {
+    .workspace-preview { width: calc(100% - 32px); margin: 36px auto 0; padding-bottom: 0; }
+    .command-window { position: relative; width: calc(100% - 24px); margin: -20px auto 0; left: auto; }
+    .command-body { gap: 12px; padding: 16px; }
+    .window-bar { height: 34px; padding: 0 12px; }
+    .window-tab { margin-left: auto; }
+  }
+</style>

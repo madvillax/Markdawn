@@ -1,0 +1,248 @@
+/* A continuous full-width hero surface uses the footer's paper, ink, and orange. */
+.home-page .page-shell {
+  --hero-accent: #ff6b2b;
+  --hero-accent-text: #b94313;
+  --preview-surface: #f7f7f5;
+  --pill-surface: #f1f1ef;
+  --pill-hover: #dededc;
+  position: relative;
+  display: flow-root;
+  width: 100%;
+  min-height: 100dvh;
+  padding: 28px 0 72px;
+  overflow: clip;
+  background: var(--background);
+  color: var(--text);
+}
+
+.dark .home-page .page-shell {
+  --hero-accent-text: #ff6b2b;
+  --preview-surface: #181817;
+  --pill-surface: #1e1e1e;
+  --pill-hover: #3f3f46;
+}
+
+.home-page .hero {
+  position: relative;
+  /* Keep the CLI popover above the product preview. */
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(760px, calc(100% - 48px));
+  margin: 8px auto 0;
+  text-align: center;
+}
+
+.home-page .hero h1 {
+  margin: 0;
+  font-size: clamp(34px, 4.5vw, 58px);
+  font-weight: 450;
+  letter-spacing: -0.055em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.home-page .hero h1 span {
+  color: var(--muted);
+}
+
+.home-page .hero-copy {
+  max-width: 530px;
+  margin: 22px auto 26px;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+.home-page .actions {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--pill-surface);
+}
+
+.home-page .action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-width: 104px;
+  min-height: 36px;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+.home-page .action-button:hover {
+  background: var(--pill-hover);
+}
+.home-page .action-button:active {
+  transform: scale(0.97);
+}
+.home-page .action-button::after {
+  content: "↗";
+  font-size: 16px;
+}
+.home-page .actions > .action-button:first-child {
+  border-color: var(--hero-accent);
+  background: var(--hero-accent);
+  color: #111110;
+}
+.home-page .actions > .action-button:first-child:hover {
+  background: #ff7a3d;
+}
+.home-page a:focus-visible,
+.home-page button:focus-visible {
+  outline: 2px solid var(--hero-accent-text);
+  outline-offset: 4px;
+}
+
+.home-page .cli-popover-container {
+  position: relative;
+  display: inline-flex;
+}
+.home-page .cli-popover {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 50%;
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  padding: 18px;
+  transform: translateX(-50%);
+  border: 1px solid var(--line);
+  background: var(--background);
+  box-shadow: 0 12px 32px rgb(37 37 35 / 15%);
+  text-align: left;
+}
+.home-page .cli-popover[hidden] {
+  display: none;
+}
+.home-page .cli-popover-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.home-page .cli-popover-title a {
+  color: var(--muted);
+}
+.home-page .cli-command + .cli-command {
+  margin-top: 14px;
+}
+.home-page .cli-command-label {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.home-page .cli-command-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  background: var(--preview-surface);
+}
+.home-page .cli-command-row code {
+  min-width: 0;
+  flex: 1;
+  overflow-x: auto;
+  font-family: "Geist Mono", monospace;
+  font-size: 11px;
+}
+.home-page .copy-button {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.home-page .copy-button:hover {
+  color: var(--text);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .home-page .hero {
+    animation: hero-enter 500ms ease-out both;
+  }
+  @keyframes hero-enter {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@media (max-width: 899px) {
+  .home-page .page-shell {
+    padding-top: 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .home-page .page-shell {
+    padding-bottom: 48px;
+  }
+  .home-page .hero {
+    width: calc(100% - 32px);
+    margin-top: 28px;
+  }
+  .home-page .hero h1 {
+    font-size: clamp(29px, 7.5vw, 40px);
+  }
+  .home-page .hero-copy {
+    max-width: 340px;
+    font-size: 14px;
+    margin: 18px auto 24px;
+  }
+  .home-page .actions {
+    width: 100%;
+    gap: 4px;
+  }
+  .home-page .action-button {
+    min-width: 0;
+    flex: 1 1 0;
+    gap: 12px;
+    padding-inline: 12px;
+  }
+  .home-page .cli-popover-container {
+    min-width: 0;
+    flex: 1 1 0;
+  }
+  .home-page .cli-popover-container .action-button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-page .action-button {
+    transition: none;
+  }
+}

@@ -1,13 +1,14 @@
-/* Sharp paper sheets, pill actions. The reference footer's dark surface is intentional. */
+/* Sharp paper sheets and angular actions inherit the selected site theme. */
 .site-footer {
   --footer-orange: #ff6b2b;
-  --footer-white: #f7f7f5;
-  --footer-muted: #a7a7a3;
+  --footer-paper: #f7f7f5;
+  --footer-ink: #252523;
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: #111110;
-  color: var(--footer-white);
+  border: 1px solid var(--line);
+  background: var(--background);
+  color: var(--text);
   font-family: Geist, ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -25,7 +26,7 @@
 
 .footer-kicker {
   margin: 0 0 18px;
-  color: var(--footer-muted);
+  color: var(--muted);
   font-size: 13px;
 }
 
@@ -44,7 +45,7 @@
 .footer-description {
   max-width: 440px;
   margin: 16px 0 18px;
-  color: var(--footer-muted);
+  color: var(--muted);
   font-size: 14px;
   line-height: 1.5;
 }
@@ -80,7 +81,7 @@
 
 .footer-navigation h3 {
   margin: 0 0 24px;
-  color: var(--footer-muted);
+  color: var(--muted);
   font-size: 12px;
   font-weight: 400;
   text-transform: uppercase;
@@ -99,7 +100,7 @@
 }
 
 .footer-navigation a span {
-  color: var(--footer-muted);
+  color: var(--muted);
 }
 
 .footer-note-scene {
@@ -136,9 +137,9 @@
   height: 100%;
   flex-direction: column;
   padding: 10px 10px 8px;
-  background: var(--footer-white);
+  background: var(--footer-paper);
   box-shadow: 1px 4px 12px rgb(0 0 0 / 18%);
-  color: #252523;
+  color: var(--footer-ink);
   transition: transform 180ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -148,7 +149,7 @@
   right: 0;
   width: 13px;
   height: 13px;
-  background: linear-gradient(45deg, #d9d9d5 50%, #111110 50%);
+  background: linear-gradient(45deg, #d9d9d5 50%, var(--background) 50%);
   content: "";
 }
 
@@ -202,7 +203,7 @@
 }
 
 .footer-note-orange .footer-note-paper::after {
-  background: linear-gradient(45deg, #cc4b15 50%, #111110 50%);
+  background: linear-gradient(45deg, #cc4b15 50%, var(--background) 50%);
 }
 
 .footer-note-orange .footer-note-top,
@@ -217,14 +218,29 @@
 }
 
 .footer-wordmark {
+  display: flex;
   position: relative;
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 20px);
   margin: 12px 0 0 -0.035em;
-  color: var(--footer-white);
+  color: var(--text);
   font-size: clamp(80px, 10vw, 144px);
   font-weight: 400;
   letter-spacing: -0.065em;
   line-height: 1;
   user-select: none;
+}
+
+.footer-mark {
+  display: block;
+  width: clamp(28px, 3vw, 46px);
+  height: auto;
+  flex: 0 0 auto;
+  filter: invert(0);
+}
+
+:root.dark .footer-mark {
+  filter: invert(1);
 }
 
 .footer-wordmark-accent {

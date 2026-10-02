@@ -41,7 +41,7 @@ const resources = [
 ];
 ---
 
-<footer class="site-footer" id="footer" data-note-footer>
+<footer class="site-footer" id="footer" data-note-footer transition:persist="site-footer" transition:animate="none">
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-intro">
@@ -91,7 +91,10 @@ const resources = [
       ))}
     </div>
 
-    <div class="footer-wordmark" aria-label="Metakip">Metakip<span class="footer-wordmark-accent" aria-hidden="true">.</span></div>
+    <div class="footer-wordmark" aria-label="Metakip">
+      <img class="footer-mark" src="/metakip-mark.png" alt="" width="512" height="470" />
+      <span>Metakip<span class="footer-wordmark-accent" aria-hidden="true">.</span></span>
+    </div>
   </div>
 
 </footer>
