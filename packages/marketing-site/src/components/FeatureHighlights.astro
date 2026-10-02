@@ -1,0 +1,399 @@
+---
+// biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
+import { Image } from 'astro:assets';
+import backlinksDark from '../assets/feature-backlinks-dark.png';
+import backlinksLight from '../assets/feature-backlinks-light.png';
+import tokensDark from '../assets/feature-tokens-dark.png';
+import tokensLight from '../assets/feature-tokens-light.png';
+import { FEATURE_IMAGES } from '../data/featureMedia';
+
+// A concise home-page summary of the fuller /features content.
+// biome-ignore lint/correctness/noUnusedVariables: Used by the Astro template below.
+const highlights = [
+  {
+    label: 'Every interface',
+    title: 'One page. Every way to work.',
+    description:
+      'Write in the browser, edit from your terminal, or bring an agent into the same page. Your context stays right where you left it.',
+    details: ['Web', 'CLI', 'MCP', 'API'],
+    icon: 'interfaces',
+    featureId: 'same-pages',
+    image: FEATURE_IMAGES['browser-page'],
+  },
+  {
+    label: 'Live collaboration',
+    title: 'Work together. Stay in control.',
+    description:
+      'Share a page, choose who can do what, and see edits as they happen. No stale copies. No wondering which version is current.',
+    details: ['View', 'Edit', 'Admin'],
+    icon: 'collaboration',
+    featureId: 'real-time',
+    image: FEATURE_IMAGES['invite-access'],
+  },
+  {
+    label: 'Connected knowledge',
+    title: 'Keep the context with the content.',
+    description:
+      'Organize with folders, link related pages, and follow backlinks. Your notes become a connected workspace, not a pile of documents.',
+    details: [],
+    icon: 'knowledge',
+    featureId: 'connected-knowledge',
+    image: {
+      light: backlinksLight,
+      dark: backlinksDark,
+      alt: 'A Metakip project page linking to a related knowledge page.',
+    },
+  },
+  {
+    label: 'Agent permissions',
+    title: 'Give agents boundaries. Not a blank check.',
+    description:
+      'Create named, scoped tokens. Agents read first and make exact edits that stop when the content is missing, repeated, or changed.',
+    details: [],
+    icon: 'boundaries',
+    featureId: 'careful-agents',
+    image: {
+      light: tokensLight,
+      dark: tokensDark,
+      alt: 'Metakip API token settings with read-only and read-and-write access options.',
+    },
+  },
+] as const;
+---
+
+<section class="feature-highlights" aria-label="Metakip highlights">
+  <div class="feature-highlights-grid">
+    {highlights.map(({ label, title, description, details, icon, featureId, image }, index) => (
+      <article class:list={['feature-highlight', { 'feature-highlight-wide': index < 2 }]}>
+        <div class="feature-highlight-copy">
+        <div class="feature-highlight-heading">
+        <div class="feature-highlight-icon" aria-hidden="true">
+          {icon === 'interfaces' && (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="12" rx="2"></rect>
+              <path d="M8 20h8M12 16v4M7 9h10"></path>
+            </svg>
+          )}
+          {icon === 'collaboration' && (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="8" r="3"></circle>
+              <circle cx="17" cy="10" r="2"></circle>
+              <path d="M3.5 20a5.5 5.5 0 0 1 11 0M14 17.5a4 4 0 0 1 6.5 2.5"></path>
+            </svg>
+          )}
+          {icon === 'knowledge' && (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 13a5 5 0 0 0 7.07.07l2-2A5 5 0 0 0 12 4l-1.14 1.14"></path>
+              <path d="M14 11a5 5 0 0 0-7.07-.07l-2 2A5 5 0 0 0 12 20l1.14-1.14"></path>
+            </svg>
+          )}
+          {icon === 'boundaries' && (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="8" cy="15" r="3"></circle>
+              <path d="M10.25 12.9 18 5.15a3 3 0 1 1 1.85 5.1L17.5 10.8M15 13l-2 2M18 16l-2 2"></path>
+            </svg>
+          )}
+        </div>
+          <span>{label}</span>
+        </div>
+        <h2>{title}</h2>
+        <p>{description}</p>
+        {details.length > 0 && (
+          <ul class="feature-highlight-details" aria-label={icon === 'interfaces' ? 'Available interfaces' : 'Page access levels'}>
+            <li class="details-label">{icon === 'interfaces' ? 'Work your way' : 'Access on your terms'}</li>
+            {details.map((detail) => <li>{detail}</li>)}
+          </ul>
+        )}
+        </div>
+        <div class="feature-highlight-stage" data-stage={icon}>
+        <a
+          class="feature-highlight-preview"
+          data-preview={icon}
+          href={`/features#${featureId}`}
+          aria-label={`Explore ${title.toLowerCase()}`}
+        >
+          <Image
+            class="preview-light"
+            src={image.light}
+            alt={image.alt}
+            widths={[Math.min(400, image.light.width), Math.min(960, image.light.width)]}
+            sizes="(max-width: 800px) calc(100vw - 96px), 480px"
+            format="webp"
+            loading="lazy"
+            decoding="async"
+          />
+          <Image
+            class="preview-dark"
+            src={image.dark}
+            alt={`${image.alt} in dark mode.`}
+            widths={[Math.min(400, image.dark.width), Math.min(960, image.dark.width)]}
+            sizes="(max-width: 800px) calc(100vw - 96px), 480px"
+            format="webp"
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
+        {icon === 'interfaces' && (
+          <a class="feature-terminal-preview" href="/features#same-pages" aria-label="Explore Metakip's terminal interface">
+            <Image class="preview-light" src={FEATURE_IMAGES['terminal-page'].light} alt={FEATURE_IMAGES['terminal-page'].alt} widths={[400, 800]} sizes="(max-width: 800px) 240px, 320px" format="webp" loading="lazy" decoding="async" />
+            <Image class="preview-dark" src={FEATURE_IMAGES['terminal-page'].dark} alt={`${FEATURE_IMAGES['terminal-page'].alt} in dark mode.`} widths={[400, 800]} sizes="(max-width: 800px) 240px, 320px" format="webp" loading="lazy" decoding="async" />
+          </a>
+        )}
+        {icon === 'boundaries' && (
+          <div class="feature-access-note"><span aria-hidden="true">✓</span> Read first. Edit precisely. Stay in scope.</div>
+        )}
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .feature-highlights {
+    width: min(1200px, calc(100% - 48px));
+    margin: 80px auto 0;
+    border: 1px solid var(--line);
+    overflow: hidden;
+    border-radius: 0;
+    background: var(--preview-surface, var(--background));
+    font-family: Geist, ui-sans-serif, system-ui, sans-serif;
+  }
+
+  .feature-highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .feature-highlight {
+    min-width: 0;
+    padding: 48px clamp(28px, 4vw, 56px);
+  }
+
+  .feature-highlight-wide {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 56px;
+    min-height: 500px;
+  }
+
+  .feature-highlight:last-child {
+    border-left: 1px solid var(--line);
+  }
+
+  .feature-highlight + .feature-highlight {
+    border-top: 1px solid var(--line);
+  }
+
+  .feature-highlight-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 26px;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .feature-highlight-icon {
+    display: grid;
+    width: 22px;
+    height: 22px;
+    flex: 0 0 auto;
+    place-items: center;
+  }
+
+  .feature-highlight-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .feature-highlight h2,
+  .feature-highlight p {
+    margin: 0;
+  }
+
+  .feature-highlight h2 {
+    color: var(--text);
+    font-size: clamp(28px, 2.6vw, 36px);
+    font-weight: 550;
+    letter-spacing: -0.035em;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  .feature-highlight-wide h2 {
+    max-width: 19ch;
+    font-size: clamp(30px, 3vw, 40px);
+  }
+
+  .feature-highlight p {
+    margin-top: 20px;
+    color: var(--muted);
+    font-size: 17px;
+    line-height: 1.7;
+    text-wrap: pretty;
+  }
+
+  .feature-highlight-details {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 30px 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 13px;
+  }
+
+  .feature-highlight-details li:not(.details-label) {
+    padding: 6px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--background);
+    color: var(--text);
+  }
+
+  .details-label {
+    margin-right: 6px;
+    color: var(--muted);
+  }
+
+  .feature-highlight-stage {
+    position: relative;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    min-width: 0;
+    min-height: 320px;
+    margin-top: 40px;
+  }
+
+  .feature-highlight-wide .feature-highlight-stage {
+    margin-top: 0;
+    min-height: 400px;
+  }
+
+  .feature-highlight-preview,
+  .feature-terminal-preview {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--background);
+    cursor: pointer;
+    transition: border-color 180ms ease;
+  }
+
+  .feature-highlight-preview:hover,
+  .feature-terminal-preview:hover {
+    border-color: color-mix(in srgb, var(--muted) 60%, var(--line));
+  }
+
+  .feature-highlight-preview:focus-visible,
+  .feature-terminal-preview:focus-visible {
+    outline: 2px solid var(--accent-text);
+    outline-offset: 5px;
+  }
+
+  .feature-highlight-stage :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+  }
+
+  .feature-highlight-stage :global(.preview-dark) { display: none; }
+  :global(.dark) .feature-highlight-stage :global(.preview-light) { display: none; }
+  :global(.dark) .feature-highlight-stage :global(.preview-dark) { display: block; }
+
+  [data-stage='interfaces'] {
+    padding: 0 0 40px 26px;
+  }
+
+  [data-preview='interfaces'] {
+    max-width: 410px;
+    height: 360px;
+  }
+
+  .feature-terminal-preview {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 70%;
+    height: 160px;
+    border-radius: 12px;
+  }
+
+  [data-preview='collaboration'] {
+    max-width: 360px;
+  }
+
+  /* The native share panel has a small backdrop around its edges. */
+  [data-preview='collaboration'] :global(img) {
+    width: 107%;
+    max-width: none;
+    margin: -4.5% -3.5% -3%;
+  }
+
+  [data-preview='knowledge'] {
+    height: 310px;
+  }
+
+  [data-preview='boundaries'] {
+    border-radius: 12px;
+  }
+
+  .feature-access-note {
+    margin-top: 22px;
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .feature-access-note span {
+    margin-right: 6px;
+    color: var(--accent-text);
+  }
+
+  @media (max-width: 1000px) {
+    .feature-highlight-wide { gap: 32px; }
+    .feature-highlight { padding: 36px 32px; }
+    .feature-highlight p { font-size: 16px; }
+    .details-label { flex-basis: 100%; margin-bottom: 4px; }
+  }
+
+  @media (max-width: 800px) {
+    .feature-highlights { margin-top: 56px; }
+    .feature-highlights-grid { grid-template-columns: 1fr; }
+    .feature-highlight { padding: 36px; }
+    .feature-highlight-wide { grid-template-columns: 1fr; gap: 32px; min-height: 0; }
+    .feature-highlight:last-child { border-left: 0; }
+    .feature-highlight h2 { max-width: 23ch; }
+    .feature-highlight-stage { min-height: 0; max-width: 480px; width: 100%; margin: 32px auto 0; }
+    .feature-highlight-wide .feature-highlight-stage { min-height: 0; }
+    [data-stage='interfaces'] { padding-bottom: 40px; }
+    .details-label { flex-basis: auto; }
+  }
+
+  @media (max-width: 560px) {
+    .feature-highlights { width: calc(100% - 32px); border-radius: 18px; }
+    .feature-highlight { padding: 30px 22px; }
+    .feature-highlight-heading { margin-bottom: 20px; font-size: 14px; }
+    .feature-highlight h2 { font-size: 28px; }
+    .feature-highlight p { margin-top: 16px; font-size: 15px; }
+    .feature-highlight-details { margin-top: 22px; }
+    .details-label { flex-basis: 100%; }
+    [data-stage='interfaces'] { padding-left: 16px; }
+    [data-preview='interfaces'] { height: 270px; }
+    .feature-terminal-preview { height: 110px; width: 78%; }
+    [data-preview='knowledge'] { height: 240px; }
+    .feature-access-note { font-size: 11px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .feature-highlight-preview, .feature-terminal-preview { transition: none; }
+  }
+</style>
