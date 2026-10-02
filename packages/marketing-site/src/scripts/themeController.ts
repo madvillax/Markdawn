@@ -18,7 +18,7 @@ export const initializeThemeController = (): void => {
     document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
     document
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', isDark ? '#090909' : '#ffffff');
+      ?.setAttribute('content', isDark ? '#171817' : '#f5f3ed');
     document.querySelectorAll<HTMLLinkElement>('[data-theme-icon]').forEach((icon) => {
       const size = icon.dataset.themeIcon;
       if (size) icon.href = `/icon-${isDark ? 'dark' : 'light'}-${size}.png`;
