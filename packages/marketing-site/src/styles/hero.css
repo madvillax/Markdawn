@@ -2,9 +2,9 @@
 .home-page .page-shell {
   --hero-accent: #ff6b2b;
   --hero-accent-text: #b94313;
-  --preview-surface: #f7f7f5;
-  --pill-surface: #f1f1ef;
-  --pill-hover: #dededc;
+  --preview-surface: #eeece4;
+  --pill-surface: #ebe9e2;
+  --pill-hover: #dbd8ce;
   position: relative;
   display: flow-root;
   width: 100%;
@@ -17,9 +17,9 @@
 
 .dark .home-page .page-shell {
   --hero-accent-text: #ff6b2b;
-  --preview-surface: #181817;
-  --pill-surface: #1e1e1e;
-  --pill-hover: #3f3f46;
+  --preview-surface: #242522;
+  --pill-surface: #22231f;
+  --pill-hover: #353631;
 }
 
 .home-page .hero {
@@ -71,7 +71,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 12px;
   min-width: 104px;
   min-height: 36px;
   padding: 8px 16px;
@@ -100,6 +100,17 @@
   content: "↗";
   font-size: 16px;
 }
+.home-page .action-icon {
+  flex: 0 0 auto;
+  color: var(--muted);
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
+}
+.home-page .action-button:hover .action-icon {
+  color: var(--text);
+  transform: translateY(-1px);
+}
 .home-page .actions > .action-button:first-child {
   border-color: var(--hero-accent);
   background: var(--hero-accent);
@@ -107,6 +118,9 @@
 }
 .home-page .actions > .action-button:first-child:hover {
   background: #ff7a3d;
+}
+.home-page .actions > .action-button:first-child .action-icon {
+  color: #111110;
 }
 .home-page a:focus-visible,
 .home-page button:focus-visible {
@@ -229,8 +243,9 @@
   .home-page .action-button {
     min-width: 0;
     flex: 1 1 0;
-    gap: 12px;
-    padding-inline: 12px;
+    justify-content: center;
+    gap: 8px;
+    padding-inline: 8px;
   }
   .home-page .cli-popover-container {
     min-width: 0;
@@ -243,6 +258,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .home-page .action-button {
+    transition: none;
+  }
+  .home-page .action-icon {
     transition: none;
   }
 }
