@@ -8,10 +8,16 @@ The illustration has a transparent PNG source, high-quality WebP delivery, and p
 
 Logo sources:
 
-- Pi: https://pi.dev/favicon.svg (official monochrome mark).
-- Cursor: https://github.com/simple-icons/simple-icons/blob/develop/icons/cursor.svg
-- Claude: https://github.com/simple-icons/simple-icons/blob/develop/icons/claude.svg
-- Codex uses the OpenAI mark: https://github.com/simple-icons/simple-icons/blob/13.21.0/icons/openai.svg
+- Pi: https://pi.dev/favicon.svg (official monochrome mark, fixed to ink on its light icon tile).
+- Cursor: https://cursor.com/marketing-static/favicon-light.svg
+- Claude: https://claude.ai/favicon.svg (official terracotta mark).
+- ChatGPT uses the OpenAI mark: https://github.com/simple-icons/simple-icons/blob/13.21.0/icons/openai.svg
+- OpenCode: https://opencode.ai/favicon.svg
+- Grok: https://grok.com/images/favicon.svg
+- Antigravity: https://www.antigravity.google/assets/image/brand/antigravity-icon__full-color.svg
+- Muse (Meta): https://introducing.muse.ai/icon.svg (official blue gradient mark).
+
+SVG assets are served locally from `public/agents/`. Original brand colors are retained, including monochrome for brands whose official marks are monochrome. Branches share a single trunk and use matching 45-degree diagonals with softened corners; icon centers and connector destinations come from the same coordinates.
 
 `hero-workspace-light.png` and `hero-workspace-dark.png` are illustrative workspace mockups created with the built-in image generation tool, using frames of the existing collaboration recordings as structure references.
 
