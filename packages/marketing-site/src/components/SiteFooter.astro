@@ -48,7 +48,7 @@ const resources = [
         <p class="footer-kicker">A home for your knowledge</p>
         <h2>Your next idea<br />belongs <span>here.</span></h2>
         <p class="footer-description">One knowledge base for you, your team, and your agents.</p>
-        <AppLink class="footer-cta">Open Metakip <span aria-hidden="true">↗</span></AppLink>
+        <AppLink class="footer-cta">Open Metakip</AppLink>
       </div>
       <nav class="footer-navigation" aria-label="Footer navigation">
         <div>
@@ -72,7 +72,7 @@ const resources = [
     <div class="footer-note-scene" data-note-scene aria-hidden="true">
       {notes.map(({ filename, preview, position }, index) => (
         <div
-          class:list={['footer-note', filename === 'ideas.md' && 'footer-note-orange']}
+          class:list={['footer-note', filename === 'ideas.md' && 'footer-note-contrast']}
           style={position}
           data-note={index}
         >
@@ -93,7 +93,7 @@ const resources = [
 
     <div class="footer-wordmark" aria-label="Metakip">
       <img class="footer-mark" src="/metakip-mark.png" alt="" width="512" height="470" />
-      <span>Metakip<span class="footer-wordmark-accent" aria-hidden="true">.</span></span>
+      <span>Metakip</span>
     </div>
   </div>
 

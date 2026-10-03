@@ -11,7 +11,6 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
     <div class="site-header-inner">
     <a class="site-brand" href="/" aria-label="Metakip home">
       <img class="site-brand-mark" src="/metakip-mark.png" width="30" height="30" alt="" />
-      <span>Metakip</span>
     </a>
     <nav class="page-nav" aria-label="Page navigation">
       {SITE_NAVIGATION.map((link) => (
@@ -24,7 +23,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
       ))}
     </nav>
     </div>
-    <div class="site-utility-pill">
+    <div class="site-utility-controls">
       <div class="header-actions">
       <a class="header-action" href={DOCS_ORIGIN} target="_blank" rel="noopener noreferrer" title="Documentation" aria-label="Documentation">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -39,23 +38,14 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
         <span>GitHub</span>
       </a>
       </div>
-      <div class="theme-selector" role="group" aria-label="Color theme">
-        <button class="theme-option" type="button" data-theme-option="system" aria-label="Use system theme" title="Use system theme" aria-pressed="false">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect width="20" height="14" x="2" y="3" rx="2"></rect><line x1="8" x2="16" y1="21" y2="21"></line><line x1="12" x2="12" y1="17" y2="21"></line>
-          </svg>
-        </button>
-        <button class="theme-option" type="button" data-theme-option="light" aria-label="Light theme" title="Light theme" aria-pressed="false">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
-          </svg>
-        </button>
-        <button class="theme-option" type="button" data-theme-option="dark" aria-label="Dark theme" title="Dark theme" aria-pressed="false">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-          </svg>
-        </button>
-      </div>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Switch to dark theme" aria-pressed="false">
+        <svg class="theme-toggle-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+        </svg>
+        <svg class="theme-toggle-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
+        </svg>
+      </button>
     </div>
   </div>
 </header>
@@ -94,7 +84,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
   .site-header-inner {
     display: flex;
     align-items: center;
-    gap: clamp(14px, 2vw, 26px);
+    gap: clamp(10px, 1.5vw, 18px);
     width: auto;
     flex: 0 1 auto;
     padding: 7px 14px;
@@ -104,16 +94,11 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
   }
 
   .site-brand {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    grid-area: brand;
-    gap: 9px;
-    color: var(--text);
-    font-size: 17px;
-    font-weight: 570;
-    letter-spacing: -0.04em;
+    justify-content: center;
+    flex: 0 0 auto;
     text-decoration: none;
-    white-space: nowrap;
   }
 
   .site-brand-mark {
@@ -130,7 +115,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
     flex: 0 1 auto;
     align-items: center;
     justify-content: flex-start;
-    gap: clamp(16px, 2.4vw, 36px);
+    gap: clamp(12px, 1.8vw, 26px);
     min-width: 0;
     overflow-x: auto;
     border: 0;
@@ -146,25 +131,29 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
     min-height: 38px;
     flex: 0 0 auto;
     color: var(--muted);
-    font-size: 15px;
-    font-weight: 470;
+    font-size: 13px;
+    font-weight: 400;
     text-decoration: none;
     white-space: nowrap;
     transition: color 180ms ease, transform 180ms ease;
   }
 
   .header-feature-link:hover,
-  .header-feature-link.active { color: var(--text); font-weight: 540; }
+  .header-feature-link.active { color: var(--text); }
   .header-feature-link:hover { transform: translateY(-1px); }
 
   .header-actions {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
+    padding: 3px;
+    border: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
+    border-radius: 999px;
+    background: var(--background);
   }
 
   .header-action,
-  .theme-option {
+  .theme-toggle {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -183,35 +172,24 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
   .header-action svg { width: 17px; height: 17px; }
   .header-action:hover { background: color-mix(in srgb, var(--text) 8%, transparent); color: var(--text); }
 
-  .theme-selector {
-    display: flex;
-    gap: 1px;
-    flex: 0 0 auto;
-    margin-left: 0;
-    padding: 3px;
-    border: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
-    border-radius: 999px;
-    background: var(--background);
-  }
-
-  .site-utility-pill {
+  .site-utility-controls {
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 10px;
     flex: 0 0 auto;
-    padding: 4px 6px;
-    border: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
-    border-radius: 999px;
-    background: var(--background);
   }
 
-  .theme-option svg { width: 16px; height: 16px; }
-  .theme-option { width: 30px; height: 30px; border-radius: 50%; }
-  .theme-option:hover { background: color-mix(in srgb, var(--text) 7%, transparent); color: var(--text); }
-  .theme-option[aria-pressed='true'] {
+  .theme-toggle svg { width: 16px; height: 16px; }
+  .theme-toggle {
     background: var(--text);
     color: var(--background);
+    transition: background-color 140ms ease, color 140ms ease, transform 140ms ease-out;
   }
+  .theme-toggle:hover { background: color-mix(in srgb, var(--text) 88%, var(--background)); color: var(--background); }
+  .theme-toggle:active { transform: scale(0.97); }
+  .theme-toggle-sun { display: none; }
+  :global(.dark) .theme-toggle-moon { display: none; }
+  :global(.dark) .theme-toggle-sun { display: block; }
 
   .site-header :is(a, button):focus-visible {
     outline: 2px solid var(--accent);
@@ -228,28 +206,28 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
       border-radius: 22px;
     }
 
-    .page-nav { justify-content: flex-start; gap: clamp(18px, 3vw, 28px); }
-    .header-feature-link { min-height: 36px; font-size: 13px; }
-    .header-actions { gap: 7px; }
-    .site-utility-pill { padding: 4px; }
+    .page-nav { justify-content: flex-start; gap: clamp(12px, 2.5vw, 20px); }
+    .header-feature-link { min-height: 36px; font-size: 12px; }
+    .header-actions { gap: 5px; }
+    .site-utility-controls { gap: 8px; }
   }
 
   @media (max-width: 560px) {
     .site-header { padding: 10px 12px 6px; }
     .site-header-layout { gap: 6px; }
-    .site-brand { gap: 8px; font-size: 16px; }
     .site-brand-mark { width: 26px; height: 26px; }
     .page-nav { gap: clamp(12px, 3.8vw, 18px); padding-bottom: 2px; }
-    .header-feature-link { min-height: 34px; font-size: 11px; }
-    .header-actions { gap: 4px; }
+    .header-feature-link { min-height: 34px; font-size: 10px; }
+    .header-actions { gap: 3px; padding: 2px; }
     .header-action { width: 29px; height: 30px; }
-    .theme-selector { gap: 0; margin-left: 1px; padding: 2px; }
-    .theme-option { width: 27px; height: 27px; }
+    .site-utility-controls { gap: 6px; }
+    .theme-toggle { width: 30px; height: 30px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .header-feature-link,
     .header-action,
-    .theme-option { transition: none; }
+    .theme-toggle { transition: none; }
+    .theme-toggle:active { transform: none; }
   }
 </style>

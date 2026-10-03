@@ -9,14 +9,10 @@
     document.documentElement.dataset.theme = theme;
     document.documentElement.classList.toggle('dark', isDark);
     document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
-    themeColorMeta.setAttribute('content', isDark ? '#171817' : '#f5f3ed');
+    themeColorMeta.setAttribute('content', isDark ? '#111111' : '#ffffff');
     document.querySelectorAll('[data-theme-icon]').forEach((icon) => {
       const size = icon.getAttribute('data-theme-icon');
       if (size) icon.setAttribute('href', `/icon-${isDark ? 'dark' : 'light'}-${size}.png`);
-    });
-    document.querySelectorAll('[data-theme-option]').forEach((button) => {
-      const selected = button.getAttribute('data-theme-option') === theme;
-      button.setAttribute('aria-pressed', String(selected));
     });
   })();
 </script>

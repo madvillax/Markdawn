@@ -1,8 +1,8 @@
-/* Sharp paper sheets and angular actions inherit the selected site theme. */
+/* Paper sheets and footer actions inherit the selected site theme. */
 .site-footer {
-  --footer-orange: #ff6b2b;
-  --footer-paper: #f7f7f5;
-  --footer-ink: #252523;
+  --footer-accent: var(--text);
+  --footer-paper: #ffffff;
+  --footer-ink: #222222;
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -39,7 +39,7 @@
 }
 
 .footer-intro h2 span {
-  color: var(--footer-orange);
+  color: var(--footer-accent);
 }
 
 .footer-description {
@@ -55,10 +55,10 @@
   align-items: center;
   gap: 28px;
   padding: 11px 18px;
-  border: 1px solid var(--footer-orange);
-  border-radius: 0;
-  background: var(--footer-orange);
-  color: #111110;
+  border: 1px solid var(--footer-accent);
+  border-radius: 999px;
+  background: var(--footer-accent);
+  color: var(--background);
   font-size: 14px;
   font-weight: 550;
   text-decoration: none;
@@ -149,7 +149,7 @@
   right: 0;
   width: 13px;
   height: 13px;
-  background: linear-gradient(45deg, #d9d9d5 50%, var(--background) 50%);
+  background: linear-gradient(45deg, #dddddd 50%, var(--background) 50%);
   content: "";
 }
 
@@ -158,13 +158,13 @@
   align-items: center;
   justify-content: space-between;
   margin: 0 5px 9px 0;
-  color: #6b6b65;
+  color: #666666;
   font-family: "Geist Mono", monospace;
   font-size: 7px;
 }
 
 .footer-note-extension {
-  color: #b94313;
+  color: #222222;
 }
 
 .footer-note-content {
@@ -180,41 +180,42 @@
 }
 
 .footer-note-line.is-heading {
-  color: #b94313;
+  color: #222222;
   font-weight: 550;
 }
 
 .footer-note-line.is-list {
-  color: #555550;
+  color: #555555;
 }
 
 .footer-note-filename {
   display: block;
   margin-top: auto;
   padding-top: 6px;
-  border-top: 1px solid #deded9;
+  border-top: 1px solid #dddddd;
   font-family: "Geist Mono", monospace;
   font-size: 6.5px;
   white-space: nowrap;
 }
 
-.footer-note-orange .footer-note-paper {
-  background: var(--footer-orange);
+.footer-note-contrast .footer-note-paper {
+  background: #222222;
+  color: #ffffff;
 }
 
-.footer-note-orange .footer-note-paper::after {
-  background: linear-gradient(45deg, #cc4b15 50%, var(--background) 50%);
+.footer-note-contrast .footer-note-paper::after {
+  background: linear-gradient(45deg, #444444 50%, var(--background) 50%);
 }
 
-.footer-note-orange .footer-note-top,
-.footer-note-orange .footer-note-extension,
-.footer-note-orange .footer-note-line.is-heading,
-.footer-note-orange .footer-note-line.is-list {
-  color: #29231f;
+.footer-note-contrast .footer-note-top,
+.footer-note-contrast .footer-note-extension,
+.footer-note-contrast .footer-note-line.is-heading,
+.footer-note-contrast .footer-note-line.is-list {
+  color: #ffffff;
 }
 
-.footer-note-orange .footer-note-filename {
-  border-color: rgb(17 17 16 / 25%);
+.footer-note-contrast .footer-note-filename {
+  border-color: rgb(255 255 255 / 25%);
 }
 
 .footer-wordmark {
@@ -233,7 +234,7 @@
 
 .footer-mark {
   display: block;
-  width: clamp(28px, 3vw, 46px);
+  width: clamp(38px, 4vw, 60px);
   height: auto;
   flex: 0 0 auto;
   filter: invert(0);
@@ -243,22 +244,18 @@
   filter: invert(1);
 }
 
-.footer-wordmark-accent {
-  color: var(--footer-orange);
-}
-
 .site-footer :is(a, button):focus-visible {
-  outline: 2px solid var(--footer-orange);
+  outline: 2px solid var(--footer-accent);
   outline-offset: 6px;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .footer-navigation a:hover {
-    color: var(--footer-orange);
+    color: var(--footer-accent);
   }
 
   .footer-cta:hover {
-    background: #ff824b;
+    background: var(--accent-hover);
     transform: translateY(-2px);
   }
 }

@@ -1,10 +1,10 @@
-/* A continuous full-width hero surface uses the footer's paper, ink, and orange. */
+/* A continuous full-width hero surface follows the monochrome site palette. */
 .home-page .page-shell {
-  --hero-accent: #ff6b2b;
-  --hero-accent-text: #b94313;
-  --preview-surface: #eeece4;
-  --pill-surface: #ebe9e2;
-  --pill-hover: #dbd8ce;
+  --hero-accent: var(--text);
+  --hero-accent-text: var(--text);
+  --preview-surface: #fafafa;
+  --pill-surface: #f5f5f5;
+  --pill-hover: #e5e5e5;
   position: relative;
   display: flow-root;
   width: 100%;
@@ -16,10 +16,37 @@
 }
 
 .dark .home-page .page-shell {
-  --hero-accent-text: #ff6b2b;
-  --preview-surface: #242522;
-  --pill-surface: #22231f;
-  --pill-hover: #353631;
+  --preview-surface: #111111;
+  --pill-surface: #111111;
+  --pill-hover: #222222;
+}
+
+.hero-workspace-connection {
+  position: absolute;
+  inset: 0 0 auto;
+  width: 100%;
+  pointer-events: none;
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.workspace-beam {
+  stroke: #60a5fa;
+  stroke-width: 2.5;
+  opacity: 0;
+  filter: drop-shadow(0 0 4px #3b82f6) drop-shadow(0 0 8px #2563eb);
+}
+.workspace-ray-halo {
+  fill: #3b82f6;
+  stroke: none;
+  opacity: 0;
+  filter: blur(3px);
+}
+.workspace-ray-core {
+  fill: #dbeafe;
+  stroke: #60a5fa;
+  opacity: 0;
+  filter: drop-shadow(0 0 4px #3b82f6) drop-shadow(0 0 9px #2563eb);
 }
 
 .home-page .hero {
@@ -114,13 +141,13 @@
 .home-page .actions > .action-button:first-child {
   border-color: var(--hero-accent);
   background: var(--hero-accent);
-  color: #111110;
+  color: var(--background);
 }
 .home-page .actions > .action-button:first-child:hover {
-  background: #ff7a3d;
+  background: var(--accent-hover);
 }
 .home-page .actions > .action-button:first-child .action-icon {
-  color: #111110;
+  color: var(--background);
 }
 .home-page a:focus-visible,
 .home-page button:focus-visible {
@@ -142,7 +169,7 @@
   transform: translateX(-50%);
   border: 1px solid var(--line);
   background: var(--background);
-  box-shadow: 0 12px 32px rgb(37 37 35 / 15%);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 15%);
   text-align: left;
 }
 .home-page .cli-popover[hidden] {

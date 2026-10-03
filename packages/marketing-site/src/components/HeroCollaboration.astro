@@ -10,48 +10,109 @@ const agents = [
   { name: 'Pi', icon: 'pi', x: 480, y: 55, branchX: 340 },
   { name: 'Cursor', icon: 'cursor', x: 490, y: 225, branchX: 350 },
   { name: 'ChatGPT', icon: 'chatgpt', x: 650, y: 55, branchX: 510 },
-  { name: 'Claude', icon: 'claude', x: 800, y: 215, branchX: 665 },
-  { name: 'OpenCode', icon: 'opencode', x: 710, y: 300, branchX: 480 },
+  { name: 'Claude', icon: 'claude', x: 830, y: 215, branchX: 665 },
+  { name: 'OpenCode', icon: 'opencode', x: 650, y: 300, branchX: 480 },
   { name: 'Grok', icon: 'grok', x: 830, y: 55, branchX: 710 },
   { name: 'Antigravity', icon: 'antigravity', x: 1020, y: 250, branchX: 810 },
   { name: 'Muse (Meta)', icon: 'muse', x: 1010, y: 80, branchX: 880 },
 ];
 
-// All branches share a 45-degree diagonal and a horizontal approach.
+// Flexible branches leave the shared axis with a smooth horizontal tangent.
 // biome-ignore lint/correctness/noUnusedVariables: Used by the Astro template below.
 const branchPath = (branchX: number, x: number, y: number): string => {
-  const direction = y < 135 ? -1 : 1;
-  const bendX = branchX + Math.abs(y - 135);
-  return `M${branchX} 135 Q${branchX + 3} 135 ${branchX + 6} ${135 + direction * 6} L${bendX - 6} ${y - direction * 6} Q${bendX} ${y} ${bendX + 8} ${y} H${x - 28}`;
+  return `M${branchX} 135 C${branchX + (x - branchX) * 0.4} 135 ${x - 85} ${y} ${x - 28} ${y}`;
 };
 ---
 
-<div class="collaboration-scene" role="img" aria-label="A human connects through Metakip to Pi, Cursor, ChatGPT, Claude, OpenCode, Grok, Antigravity, and Muse agents">
+<div class="collaboration-scene" data-agent-scene role="img" aria-label="A glowing blue thought travels from a human through flexible branches that orbit the shared axis. Eight agents generate responses in sequence, and the signal continues into the shared Markdown page.">
+ <div class="collaboration-canvas">
   <Image class="human-figure" src={human} alt="" widths={[320, 640]} sizes="(max-width: 960px) 33vw, 317px" format="webp" quality={100} loading="eager" fetchpriority="high" />
   <svg class="agent-connections" viewBox="0 0 1100 360" fill="none" aria-hidden="true">
     <path class="connection-source" d="M241 105H270Q278 105 284 111L302 129Q308 135 316 135" />
     <path class="connection-trunk" d="M316 135H880" />
-    {agents.map(({ branchX, x, y }) => <path d={branchPath(branchX, x, y)} />)}
+    {agents.map(({ branchX, x, y }, index) => (
+      <g data-agent-branch={index} data-branch-x={branchX}>
+        <path data-branch-path d={branchPath(branchX, x, y)} />
+        <circle class="signal-halo" data-branch-halo r="8" />
+        <circle class="signal-core" data-branch-signal r="2.5" />
+      </g>
+    ))}
     <rect class="connection-junction" x="312" y="131" width="8" height="8" rx="1" />
+    <path class="signal-route" data-source-route d="M170 70Q208 70 241 105H270Q278 105 284 111L302 129Q308 135 316 135H880" />
+    <circle class="signal-halo" data-source-halo r="10" />
+    <circle class="signal-core" data-source-signal r="3" />
   </svg>
-  {agents.map(({ name, icon, x, y }) => (
-    <div class="agent-node" style={`--agent-x:${x / 11}%;--agent-y:${y / 3.6}%`} aria-hidden="true">
+  {agents.map(({ name, icon, x, y }, index) => (
+    <div class="agent-node" data-agent-node={index} data-agent-x={x} data-agent-y={y} style={`--agent-x:${x / 11}%;--agent-y:${y / 3.6}%`} aria-hidden="true">
+     <div class="agent-orbit" data-agent-orbit>
+      <div class="agent-generation" data-agent-card>
+        <div class="generation-heading"><img src={`/agents/${icon}.svg`} width="10" height="10" alt="" /><span>{name}</span><i></i></div>
+        <code data-agent-output>{['Thinking through the idea…', 'Reading your project…', 'Connecting the context…', 'Drafting the next step…', 'Updating the page…', 'Exploring another angle…', 'Checking the details…', 'Bringing it together…'][index]}</code>
+      </div>
       <div class="agent-logo">
         <img src={`/agents/${icon}.svg`} width="36" height="36" alt="" loading="eager" />
       </div>
       <span>{name}</span>
+     </div>
     </div>
   ))}
+ </div>
 </div>
+
+<div class="hero-motion-controls"><button type="button" data-hero-pause aria-pressed="false">Pause animation</button></div>
+
+<script>
+  import { initializeHeroAnimation } from '../scripts/heroAnimation';
+  let cleanup: (() => void) | undefined;
+  const initialize = (): void => {
+    cleanup?.();
+    const scene = document.querySelector<HTMLElement>('[data-agent-scene]');
+    if (scene) cleanup = initializeHeroAnimation(scene);
+  };
+  document.addEventListener('astro:page-load', initialize);
+  document.addEventListener('astro:before-swap', () => cleanup?.());
+</script>
 
 <style>
   .collaboration-scene {
     position: relative;
     width: min(100%, 960px);
-    aspect-ratio: 1100 / 360;
-    overflow: hidden;
+    padding-top: 64px;
+    overflow: visible;
     color: var(--text);
   }
+
+  .collaboration-canvas { position: relative; aspect-ratio: 1100 / 360; }
+  .agent-orbit { position: relative; display: grid; justify-items: center; gap: clamp(4px, 0.7vw, 8px); }
+  .hero-motion-controls { width: min(960px, calc(100% - 32px)); margin: 0 auto; text-align: right; }
+  .hero-motion-controls button { padding: 5px 0; border: 0; background: transparent; color: var(--muted); cursor: pointer; font: 9px Geist, sans-serif; }
+  .hero-motion-controls button:hover { color: var(--text); }
+  @media (prefers-reduced-motion: reduce) { .hero-motion-controls { display: none; } }
+  .agent-generation {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    width: clamp(82px, 11vw, 118px);
+    min-height: 57px;
+    padding: 8px;
+    border: 1px solid color-mix(in srgb, #3b82f6 38%, var(--line));
+    border-radius: 8px;
+    background: var(--background);
+    box-shadow: 0 4px 18px rgb(0 0 0 / 10%);
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+    transform-origin: bottom center;
+    pointer-events: none;
+  }
+  .generation-heading { display: flex; align-items: center; gap: 4px; margin-bottom: 5px; }
+  .generation-heading img { width: 12px; height: 12px; padding: 1px; border-radius: 2px; background: #fff; object-fit: contain; filter: none; }
+  .generation-heading span { padding: 0; font-size: 7px; color: var(--text); }
+  .generation-heading i { width: 4px; height: 4px; margin-left: auto; border-radius: 50%; background: #3b82f6; }
+  .agent-generation code { display: block; min-height: 23px; color: var(--muted); font: 8px/1.45 'Geist Mono', monospace; white-space: pre-wrap; }
+  .agent-generation code::after { content: ''; display: inline-block; width: 1px; height: 8px; margin-left: 2px; background: #3b82f6; }
+  .signal-route { stroke: #60a5fa; stroke-width: 2.5; opacity: 0; filter: drop-shadow(0 0 4px #3b82f6) drop-shadow(0 0 8px #2563eb); }
+  .signal-halo { fill: #3b82f6; stroke: none; opacity: 0; filter: blur(3px); }
+  .signal-core { fill: #dbeafe; stroke: #60a5fa; stroke-width: 1; opacity: 0; filter: drop-shadow(0 0 4px #3b82f6) drop-shadow(0 0 9px #2563eb); }
+  [data-branch-path].is-generating { filter: drop-shadow(0 0 3px rgb(59 130 246 / 65%)); }
 
   .collaboration-scene :global(.human-figure) {
     position: absolute;
@@ -59,6 +120,7 @@ const branchPath = (branchX: number, x: number, y: number): string => {
     left: 0;
     width: 33%;
     height: auto;
+    filter: none;
     image-rendering: pixelated;
   }
 
@@ -74,12 +136,12 @@ const branchPath = (branchX: number, x: number, y: number): string => {
   }
 
   .connection-source {
-    stroke: #ff6b2b;
+    stroke: var(--text);
     stroke-width: 2;
   }
 
   .connection-junction {
-    fill: #ff6b2b;
+    fill: var(--text);
     stroke: none;
   }
 
@@ -99,9 +161,9 @@ const branchPath = (branchX: number, x: number, y: number): string => {
     width: var(--agent-size);
     height: var(--agent-size);
     place-items: center;
-    border: 1px solid rgb(37 37 35 / 8%);
+    border: 1px solid var(--line);
     border-radius: 10px;
-    background: #f7f7f5;
+    background: #ffffff;
   }
 
   .agent-logo img {
@@ -109,9 +171,10 @@ const branchPath = (branchX: number, x: number, y: number): string => {
     width: 75%;
     height: 75%;
     object-fit: contain;
+    filter: none;
   }
 
-  .agent-node span {
+  .agent-orbit > span {
     padding: 2px 5px;
     background: var(--background);
     font-family: 'Geist Mono', monospace;
@@ -122,7 +185,12 @@ const branchPath = (branchX: number, x: number, y: number): string => {
   }
 
   @media (max-width: 560px) {
+    .collaboration-scene { padding-top: 54px; }
+    .agent-generation { width: clamp(50px, 15vw, 74px); min-height: 47px; padding: 5px; bottom: calc(100% + 6px); }
+    .agent-node:nth-last-child(-n+2) .agent-generation { right: 0; }
+    .generation-heading span { font-size: 6px; }
+    .agent-generation code { font-size: 6px; min-height: 18px; }
     .agent-logo { border-radius: 5px; }
-    .agent-node span { padding: 1px 2px; font-size: 6px; }
+    .agent-orbit > span { padding: 1px 2px; font-size: 6px; }
   }
 </style>

@@ -1,24 +1,66 @@
 ---
 // biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
-import { Image } from 'astro:assets';
-// biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
-import workspaceDark from '../assets/hero-workspace-dark.png';
-// biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
-import workspaceLight from '../assets/hero-workspace-light.png';
-// biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
 import { DOCS_ORIGIN } from '../data/siteConfig';
+// biome-ignore lint/correctness/noUnusedImports: Used by the Astro template below.
+import WorkspaceGlyph from './WorkspaceGlyph.astro';
+
+// Fictional demo content only. The supplied screenshot is a layout reference.
+// biome-ignore lint/correctness/noUnusedVariables: Used by the Astro template below.
+const groups = [
+  {
+    label: 'Recents',
+    pages: ['Launch notes', 'Design brief', 'Research ideas', 'Weekly planning'],
+  },
+  { label: 'Shared with me', pages: ['Launch notes', 'Team handbook', 'Feedback'] },
+];
 ---
 
-<figure class="workspace-preview" aria-label="Metakip workspace and CLI preview">
+<figure class="workspace-preview" aria-label="Animated Metakip interface with fictional sample content">
   <div class="workspace-window">
-    <div class="window-bar">
-      <img src="/metakip-mark.png" width="20" height="18" alt="" />
-      <span>Metakip</span>
-      <span class="window-tab">Shared workspace</span>
-    </div>
     <div class="workspace-recording">
-      <Image class="workspace-light" src={workspaceLight} alt="Metakip shared workspace mockup" widths={[400, 800]} sizes="(max-width: 899px) 90vw, 760px" format="webp" loading="lazy" />
-      <Image class="workspace-dark" src={workspaceDark} alt="Metakip shared workspace mockup" widths={[400, 800]} sizes="(max-width: 899px) 90vw, 760px" format="webp" loading="lazy" />
+      <aside class="demo-sidebar" aria-hidden="true">
+        <div class="sidebar-pages">
+          <div class="sidebar-actions"><WorkspaceGlyph name="home" /><WorkspaceGlyph name="download" /><WorkspaceGlyph name="folderPlus" /><WorkspaceGlyph name="filePlus" /><WorkspaceGlyph name="collapse" /></div>
+          {groups.map(({ label, pages }) => (
+            <div class="sidebar-group">
+              <div class="sidebar-heading"><WorkspaceGlyph name="down" size={11} /><span>{label}</span></div>
+              {pages.map((title) => <div class:list={['sidebar-page', { 'selected-page': title === 'Launch notes' }]}><WorkspaceGlyph name="file" size={13} /><span>{title}</span></div>)}
+            </div>
+          ))}
+          <div class="sidebar-group">
+            <div class="sidebar-heading"><WorkspaceGlyph name="down" size={11} /><span>Owned by me</span></div>
+            <div class="sidebar-page"><WorkspaceGlyph name="down" size={11} /><WorkspaceGlyph name="folder" size={13} /><span>Projects</span></div>
+            <div class="sidebar-page nested"><WorkspaceGlyph name="file" size={13} /><span>Getting started</span></div>
+          </div>
+        </div>
+        <div class="sidebar-account">
+          <div class="account-actions"><WorkspaceGlyph name="monitor" /><WorkspaceGlyph name="book" /><WorkspaceGlyph name="settings" /><WorkspaceGlyph name="trash" /><WorkspaceGlyph name="search" /><WorkspaceGlyph name="panel" /></div>
+          <div class="account-profile"><span class="profile-avatar"><img src="/metakip-mark.png" width="20" height="20" alt="" /></span><div><strong>You</strong><span>Personal workspace</span></div></div>
+        </div>
+      </aside>
+      <div class="markdown-demo" data-markdown-demo role="img" aria-label="Animated example of the Metakip interface: a human, Claude, and ChatGPT continuously write a sample launch plan. No personal data is shown.">
+        <div class="editor-toolbar" aria-hidden="true">
+          <div class="editor-breadcrumb"><WorkspaceGlyph name="home" size={14} /><WorkspaceGlyph name="right" size={10} /><span>Launch notes</span></div>
+          <div class="editor-actions"><span class="permission-label">Can edit</span><WorkspaceGlyph name="star" /><WorkspaceGlyph name="share" /><span class="connection-status" title="Connected"></span></div>
+        </div>
+        <div class="page-content">
+          <div class="page-heading"><WorkspaceGlyph name="file" size={25} /><h2>Launch notes</h2></div>
+          <div class="page-properties" aria-hidden="true">
+            <div class="properties-heading"><WorkspaceGlyph name="down" size={11} /><strong>Properties</strong><span>3</span></div>
+            <div class="property-row"><span class="property-name"><WorkspaceGlyph name="tag" size={13} />tags</span><div class="property-tags"><span>project</span><span>ideas</span><span>planning</span></div></div>
+            <div class="property-row"><span class="property-name">status</span><span>In progress</span></div>
+            <div class="property-row"><span class="property-name">contributors</span><div class="editor-collaborators"><span class="human-avatar">Y</span><img src="/agents/claude.svg" width="18" height="18" alt="" /><img src="/agents/chatgpt.svg" width="18" height="18" alt="" /><span>You + agents</span></div></div>
+          </div>
+          <div class="markdown-document" aria-hidden="true">
+            <div class="markdown-row document-heading" data-author="human"><span class="markdown-marker">##</span><div><span data-writing-line="The idea" data-writing-alternate="What we are building">The idea</span><span class="writing-cursor"><span>You</span></span></div></div>
+            <div class="markdown-row document-paragraph" data-author="claude"><div><span data-writing-line="A shared place to turn small ideas into useful work." data-writing-alternate="Keep the context, decisions, and next steps together.">A shared place to turn small ideas into useful work.</span><span class="writing-cursor"><img src="/agents/claude.svg" width="11" height="11" alt="" /><span>Claude</span></span></div></div>
+            <div class="markdown-row document-heading" data-author="chatgpt"><span class="markdown-marker">##</span><div><span data-writing-line="Next steps" data-writing-alternate="Make it happen">Next steps</span><span class="writing-cursor"><img src="/agents/chatgpt.svg" width="11" height="11" alt="" /><span>ChatGPT</span></span></div></div>
+            <div class="markdown-row document-task" data-author="human"><span class="task-box complete"></span><div><span data-writing-line="Collect the questions worth exploring" data-writing-alternate="Choose the first idea to explore">Collect the questions worth exploring</span><span class="writing-cursor"><span>You</span></span></div></div>
+            <div class="markdown-row document-task" data-author="claude"><span class="task-box"></span><div><span data-writing-line="Build a first version together" data-writing-alternate="Share a small prototype with the team">Build a first version together</span><span class="writing-cursor"><img src="/agents/claude.svg" width="11" height="11" alt="" /><span>Claude</span></span></div></div>
+          </div>
+          <div class="editor-footer" aria-hidden="true"><div class="editor-writing-status"><img data-writer-image src="/metakip-mark.png" width="12" height="12" alt="" /><span data-current-writer>Shared page</span></div><span>Sample workspace</span></div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="command-window">
@@ -26,7 +68,7 @@ import { DOCS_ORIGIN } from '../data/siteConfig';
     <div class="command-body">
       <span class="command-comment"># The same knowledge, from your terminal.</span>
       <code><span class="command-prompt">$</span> metakip page list</code>
-      <code><span class="command-prompt">$</span> metakip page view "Project notes"</code>
+      <code><span class="command-prompt">$</span> metakip page view "Launch notes"</code>
       <a href={`${DOCS_ORIGIN}/agents/metakip-cli/`} target="_blank" rel="noopener noreferrer">Explore the CLI <span aria-hidden="true">↗</span></a>
     </div>
   </div>
@@ -34,75 +76,135 @@ import { DOCS_ORIGIN } from '../data/siteConfig';
 
 <style>
   .workspace-preview {
+    --demo-panel: #f6f6f6;
+    --demo-selected: #e7e7e7;
     position: relative;
-    width: min(760px, calc(100% - 80px));
+    width: min(960px, calc(100% - 64px));
     margin: 40px auto 0;
-    padding-bottom: 28px;
   }
-
+  :global(.dark) .workspace-preview { --demo-panel: #171717; --demo-selected: #2b2b2b; }
+  /* Rounded inner window and a separate neutral rim, like the supplied frame. */
   .workspace-window {
     overflow: hidden;
-    border: 1px solid var(--line);
+    border: 1px solid color-mix(in srgb, var(--text) 14%, var(--background));
+    border-radius: 28px;
     background: var(--background);
+    box-shadow:
+      0 0 0 7px color-mix(in srgb, var(--text) 9%, var(--background)),
+      0 0 0 8px color-mix(in srgb, var(--text) 5%, var(--background)),
+      0 22px 64px -18px color-mix(in srgb, var(--text) 18%, transparent);
   }
-
-  .window-bar,
-  .command-bar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    height: 40px;
-    padding: 0 16px;
-    border-bottom: 1px solid var(--line);
-    background: var(--preview-surface);
-    font-size: 11px;
-  }
-
-  .window-bar img { width: 15px; height: auto; }
-  :global(.dark) .window-bar img { filter: invert(1); }
-  .window-tab { margin-left: 18px; color: var(--muted); }
-
-  .workspace-recording {
-    overflow: hidden;
-    aspect-ratio: 16 / 8.5;
-  }
-
-  .workspace-recording :global(img) {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    object-fit: cover;
-    object-position: top;
-  }
-
-  .workspace-recording :global(.workspace-dark) { display: none; }
-  :global(.dark) .workspace-recording :global(.workspace-light) { display: none; }
-  :global(.dark) .workspace-recording :global(.workspace-dark) { display: block; }
-
-  .command-window {
-    position: absolute;
-    bottom: 0;
-    left: -28px;
-    width: min(390px, 62%);
-    border: 1px solid var(--line);
-    background: var(--background);
-    box-shadow: 0 12px 32px rgb(37 37 35 / 12%);
-    font-family: 'Geist Mono', monospace;
-  }
-
-  .command-bar { justify-content: space-between; color: var(--muted); }
+  .workspace-recording { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 26px; min-height: 550px; padding: 12px; }
+  .demo-sidebar { display: grid; grid-template-rows: 1fr auto; gap: 10px; min-width: 0; }
+  .sidebar-pages, .sidebar-account { border: 1px solid var(--line); border-radius: 25px; background: var(--demo-panel); }
+  .sidebar-pages { padding: 18px 12px 24px; }
+  .sidebar-actions, .account-actions { display: flex; justify-content: space-between; align-items: center; color: var(--muted); }
+  .sidebar-actions { padding: 0 12px 18px; }
+  .sidebar-group + .sidebar-group { margin-top: 14px; }
+  .sidebar-heading { display: flex; align-items: center; gap: 5px; margin: 0 4px 7px; color: var(--muted); font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.025em; }
+  .sidebar-page { display: flex; align-items: center; gap: 8px; min-height: 29px; padding: 6px 10px; color: var(--muted); font-size: 11px; }
+  .sidebar-page :global(svg) { flex-shrink: 0; }
+  .sidebar-page > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .selected-page { border-radius: 7px; background: var(--demo-selected); color: var(--text); font-weight: 500; }
+  .nested { padding-left: 31px; }
+  .sidebar-account { padding: 16px 14px; }
+  .account-actions :global(svg) { width: 14px; height: 14px; }
+  .account-profile { display: flex; align-items: center; gap: 9px; margin-top: 18px; }
+  .profile-avatar { display: grid; place-items: center; flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; background: #fff; border: 1px solid var(--line); }
+  .profile-avatar img { width: 18px; height: 18px; }
+  .account-profile > div { display: grid; gap: 3px; min-width: 0; font-size: 9px; color: var(--muted); }
+  .account-profile strong { color: var(--text); font-size: 11px; font-weight: 500; }
+  .markdown-demo { min-width: 0; padding: 13px 18px 18px 0; }
+  .editor-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 15px; font-size: 11px; }
+  .editor-breadcrumb { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .editor-breadcrumb :global(svg) { color: var(--muted); flex-shrink: 0; }
+  .editor-breadcrumb > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
+  .editor-actions { display: flex; align-items: center; gap: 14px; color: var(--muted); flex-shrink: 0; }
+  .permission-label { padding: 4px 8px; border-radius: 999px; background: var(--demo-selected); font-size: 9px; }
+  .connection-status { width: 7px; height: 7px; border-radius: 50%; background: var(--text); }
+  .page-content { padding: 0 16px 0 7px; }
+  .page-heading { display: flex; align-items: center; gap: 15px; margin: 52px 0 23px; }
+  .page-heading :global(svg) { color: var(--muted); flex-shrink: 0; }
+  .page-heading h2 { margin: 0; color: var(--text); font: 700 34px/1.15 Georgia, 'Times New Roman', serif; letter-spacing: -0.025em; }
+  .page-properties { display: grid; gap: 17px; font-size: 11px; }
+  .properties-heading { display: flex; align-items: center; gap: 8px; font-size: 10px; }
+  .properties-heading :global(svg) { color: var(--muted); }
+  .properties-heading strong { font-weight: 600; text-transform: uppercase; letter-spacing: 0.045em; }
+  .properties-heading > span { display: grid; place-items: center; width: 17px; height: 17px; border-radius: 50%; background: var(--demo-selected); font-size: 9px; }
+  .property-row { display: grid; grid-template-columns: 122px minmax(0, 1fr); align-items: center; gap: 8px; }
+  .property-name { display: flex; align-items: center; gap: 6px; color: var(--muted); }
+  .property-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .property-tags > span { padding: 1px 7px 2px; border: 1px solid var(--line); border-radius: 999px; background: var(--demo-panel); font-size: 10px; }
+  .editor-collaborators { display: flex; align-items: center; gap: 5px; }
+  .editor-collaborators img, .human-avatar { width: 18px; height: 18px; padding: 2px; border: 1px solid var(--line); border-radius: 50%; background: #fff; filter: none; }
+  .human-avatar { display: grid; place-items: center; background: var(--text); color: var(--background); font-size: 8px; }
+  .editor-collaborators > span:last-child { margin-left: 3px; font-size: 9px; color: var(--muted); }
+  .markdown-document { display: grid; gap: 20px; margin-top: 42px; font: 12px/1.7 Geist, sans-serif; }
+  .markdown-row { display: flex; align-items: baseline; gap: 7px; min-height: 21px; }
+  .markdown-row > div { min-width: 0; overflow-wrap: anywhere; }
+  .document-heading { color: var(--text); font-size: 21px; font-weight: 600; line-height: 1.3; min-height: 28px; }
+  .markdown-marker { color: var(--muted); opacity: 0.55; font-family: 'Geist Mono', monospace; }
+  .document-paragraph { min-height: 42px; color: var(--text); }
+  .document-task { color: var(--muted); gap: 9px; min-height: 21px; }
+  .task-box { flex-shrink: 0; position: relative; top: 2px; width: 11px; height: 11px; border: 1px solid var(--muted); border-radius: 3px; }
+  .task-box.complete { background: var(--text); border-color: var(--text); }
+  .task-box.complete::after { content: ''; position: absolute; left: 2px; top: 1px; width: 4px; height: 6px; border-right: 1px solid var(--background); border-bottom: 1px solid var(--background); transform: rotate(40deg); }
+  .writing-cursor { position: relative; display: none; height: 14px; border-left: 2px solid var(--text); margin-left: 2px; vertical-align: middle; }
+  [data-writing] + .writing-cursor { display: inline-block; }
+  .writing-cursor > span, .writing-cursor > img { position: absolute; top: -16px; }
+  .writing-cursor > img { left: -1px; width: 12px; height: 12px; padding: 1px; border-radius: 2px; background: #fff; filter: none; }
+  .writing-cursor > span { left: 0; padding: 1px 4px; background: var(--text); color: var(--background); border-radius: 3px 3px 3px 0; font: 7px/1.4 Geist, sans-serif; white-space: nowrap; }
+  .writing-cursor:has(img) > span { left: 13px; }
+  .editor-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 26px; color: var(--muted); font-size: 8px; }
+  .editor-writing-status { display: flex; align-items: center; gap: 5px; }
+  .editor-writing-status img { filter: none; }
+  :global(.dark) .editor-writing-status img[src='/metakip-mark.png'] { filter: invert(1); }
+  .command-window { position: relative; margin-top: 12px; left: -20px; width: min(390px, 62%); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--background); font-family: 'Geist Mono', monospace; }
+  .command-bar { display: flex; align-items: center; justify-content: space-between; height: 40px; padding: 0 16px; border-bottom: 1px solid var(--line); background: var(--preview-surface); color: var(--muted); font-size: 11px; }
   .command-body { display: grid; gap: 14px; padding: 20px; font-size: 10px; }
   .command-comment { color: var(--muted); font-size: 9px; }
   .command-body code { font: inherit; white-space: nowrap; }
   .command-prompt { margin-right: 8px; color: var(--hero-accent-text); }
   .command-body a { width: fit-content; margin-top: 8px; color: var(--muted); text-decoration: none; }
   .command-body a:hover { color: var(--text); }
-
+  @media (max-width: 767px) {
+    .workspace-preview { width: calc(100% - 32px); }
+    .workspace-recording { grid-template-columns: 145px minmax(0, 1fr); gap: 16px; min-height: 530px; padding: 10px; }
+    .sidebar-pages { padding: 16px 7px; }
+    .sidebar-actions { padding: 0 8px 16px; }
+    .sidebar-page { padding: 6px; font-size: 9px; gap: 6px; }
+    .sidebar-heading { font-size: 8px; }
+    .sidebar-account { padding: 14px 10px; }
+    .page-heading h2 { font-size: 28px; }
+    .page-content { padding-right: 0; }
+    .property-row { grid-template-columns: 90px minmax(0, 1fr); font-size: 10px; }
+    .editor-actions { gap: 9px; }
+    .editor-collaborators > span:last-child { display: none; }
+    .markdown-document { font-size: 11px; }
+    .document-heading { font-size: 19px; }
+  }
   @media (max-width: 560px) {
-    .workspace-preview { width: calc(100% - 32px); margin: 36px auto 0; padding-bottom: 0; }
-    .command-window { position: relative; width: calc(100% - 24px); margin: -20px auto 0; left: auto; }
+    .workspace-preview { margin-top: 36px; }
+    .workspace-window { border-radius: 22px; }
+    .workspace-recording { grid-template-columns: minmax(0, 1fr); padding: 16px; min-height: 520px; }
+    .demo-sidebar { display: none; }
+    .markdown-demo { padding: 0; }
+    .page-content { padding: 0 2px; }
+    .page-heading { margin-top: 36px; gap: 12px; }
+    .page-heading h2 { font-size: 29px; }
+    .editor-toolbar { font-size: 10px; gap: 8px; }
+    .editor-breadcrumb { gap: 6px; }
+    .editor-actions { gap: 10px; }
+    .editor-actions :global(svg) { width: 14px; height: 14px; }
+    .permission-label { display: none; }
+    .page-properties { gap: 16px; }
+    .property-row { grid-template-columns: 93px minmax(0, 1fr); }
+    .property-tags { gap: 4px; }
+    .property-tags > span { padding-inline: 5px; font-size: 9px; }
+    .markdown-document { margin-top: 34px; gap: 20px; }
+    .document-heading { font-size: 20px; }
+    .document-task { min-height: 38px; }
+    .command-window { width: calc(100% - 24px); margin: 12px auto 0; left: auto; }
     .command-body { gap: 12px; padding: 16px; }
-    .window-bar { height: 34px; padding: 0 12px; }
-    .window-tab { margin-left: auto; }
   }
 </style>

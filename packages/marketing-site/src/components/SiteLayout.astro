@@ -51,7 +51,7 @@ const structuredDataJson = structuredData ? serializeStructuredData(structuredDa
         <ClientRouter fallback="swap" />
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#f5f3ed" />
+        <meta name="theme-color" content="#ffffff" />
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
@@ -140,26 +140,24 @@ const structuredDataJson = structuredData ? serializeStructuredData(structuredDa
         color-scheme: light;
         font-family: Geist, ui-sans-serif, system-ui, sans-serif;
         /* Change these tokens to update the site's accent palette in one place. */
-        --accent: #f59c27;
-        --accent-hover: #7dd3fc;
-        --accent-text: #0369a1;
-        --accent-fold: #0284c7;
-        --background: #f5f3ed;
-        --text: #171716;
-        --muted: #696762;
-        --line: #dfddd5;
+        --accent: var(--text);
+        --accent-hover: color-mix(in srgb, var(--text) 85%, var(--background));
+        --accent-text: var(--text);
+        --accent-fold: var(--muted);
+        --background: #ffffff;
+        --text: #000000;
+        --muted: #666666;
+        --line: #e5e5e5;
         background: var(--background);
         color: var(--text);
     }
 
     :root.dark {
         color-scheme: dark;
-        --accent-text: #7dd3fc;
-        --accent-fold: #0ea5e9;
-        --background: #171817;
-        --text: #f1f0eb;
-        --muted: #b1afa8;
-        --line: #353633;
+        --background: #111111;
+        --text: #ffffff;
+        --muted: #a1a1a1;
+        --line: #333333;
         background: var(--background);
         color: var(--text);
     }
@@ -179,6 +177,16 @@ const structuredDataJson = structuredData ? serializeStructuredData(structuredDa
         min-height: 100vh;
         background: var(--background);
         color: var(--text);
+    }
+
+    html.theme-transitioning,
+    html.theme-transitioning body,
+    html.theme-transitioning body *,
+    html.theme-transitioning body *::before,
+    html.theme-transitioning body *::after {
+        transition-property: background-color, color, border-color, outline-color, fill, stroke;
+        transition-duration: 220ms;
+        transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
     }
 
     .site-layout-body {
@@ -201,9 +209,14 @@ const structuredDataJson = structuredData ? serializeStructuredData(structuredDa
         text-underline-offset: 0.2em;
     }
 
+    /* Product previews are monochrome; the hero artwork preserves its original colors. */
+    img {
+        filter: grayscale(1);
+    }
+
     a:focus-visible,
     button:focus-visible {
-        outline: 2px solid var(--muted, #a1a1aa);
+        outline: 2px solid var(--muted, #a1a1a1);
         outline-offset: 3px;
     }
 </style>
